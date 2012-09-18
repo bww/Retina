@@ -41,7 +41,7 @@ enum {
   kWGOptionVerbose        = 1 << 4
 };
 
-#define VERBOSE(options, format...)  if((options & (kWGOptionVerbose | kWGOptionPlan)) != 0){ fprintf(stdout, ##format); }
+#define VERBOSE(options, format...)  if((options & kWGOptionVerbose) == kWGOptionVerbose){ fprintf(stdout, ##format); }
 
 void WGProcessPath(int options, NSString *path);
 void WGProcessDirectory(int options, NSString *path);
@@ -158,6 +158,8 @@ void WGProcessFile(int options, NSString *path) {
         if((options & kWGOptionForce) == kWGOptionForce || ![[NSFileManager defaultManager] fileExistsAtPath:output]){
           VERBOSE(options, "%s: creating standard version: %s ==> %s\n", kCommand, [path UTF8String], [output UTF8String]);
           WGCreateScaledAsset(options, 0.5, path, output);
+        }else{
+          VERBOSE(options, "%s: standard version already exists; skipping: %s\n", kCommand, [path UTF8String]);
         }
       }
     }else{
@@ -166,6 +168,8 @@ void WGProcessFile(int options, NSString *path) {
         if((options & kWGOptionForce) == kWGOptionForce || ![[NSFileManager defaultManager] fileExistsAtPath:output]){
           VERBOSE(options, "%s: creating retina version: %s ==> %s\n", kCommand, [path UTF8String], [output UTF8String]);
           WGCreateScaledAsset(options, 2, path, output);
+        }else{
+          VERBOSE(options, "%s: retina version already exists; skipping: %s\n", kCommand, [path UTF8String]);
         }
       }
     }
@@ -185,7 +189,9 @@ void WGCreateScaledAsset(int options, CGFloat scale, NSString *input, NSString *
   size_t width  = (size_t)ceil(size.width  * scale);
   size_t height = (size_t)ceil(size.height * scale);
   
-  VERBOSE(options, "%s: scaling image [%dx%d to %dx%d]: %s\n", kCommand, (int)size.width, (int)size.height, (int)width, (int)height, [input UTF8String]);
+  if((options & (kWGOptionVerbose | kWGOptionPlan)) != 0){
+    fprintf(stdout, "%s: scaling image [%dx%d to %dx%d]: %s\n", kCommand, (int)size.width, (int)size.height, (int)width, (int)height, [input UTF8String]);
+  }
   
   if((options & kWGOptionPlan) != kWGOptionPlan){
     size_t bitsPerComponent = 8;
