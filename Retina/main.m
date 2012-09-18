@@ -47,6 +47,8 @@ void WGProcessPath(int options, NSString *path);
 void WGProcessDirectory(int options, NSString *path);
 void WGProcessFile(int options, NSString *path);
 void WGCreateScaledAsset(int options, CGFloat scale, NSString *input, NSString *output);
+void WGUsage(FILE *stream);
+void WGHelp(FILE *stream);
 
 int main(int argc, const char * argv[]) {
   @autoreleasepool {
@@ -59,16 +61,17 @@ int main(int argc, const char * argv[]) {
     }
     
     static struct option longopts[] = {
-      { "create-standard",  no_argument,  NULL,   'R' },  // create scaled-up retina versions
-      { "create-retina",    no_argument,  NULL,   'S' },  // create scaled-down standard versions
+      { "create-retina",    no_argument,  NULL,   'R' },  // create scaled-up retina versions
+      { "create-standard",  no_argument,  NULL,   'S' },  // create scaled-down standard versions
       { "force",            no_argument,  NULL,   'f' },  // force assets to be created even if they already exist
       { "plan",             no_argument,  NULL,   'p' },  // display which files would be created, but don't actually create them
       { "verbose",          no_argument,  NULL,   'v' },  // be more verbose
+      { "help",             no_argument,  NULL,   'h' },  // display help information
       { NULL,               0,            NULL,    0  }
     };
     
     int flag;
-    while((flag = getopt_long(argc, (char **)argv, "RSfpv", longopts, NULL)) != -1){
+    while((flag = getopt_long(argc, (char **)argv, "RSfpvh", longopts, NULL)) != -1){
       switch(flag){
         
         case 'R':
@@ -91,14 +94,24 @@ int main(int argc, const char * argv[]) {
           options |= kWGOptionVerbose;
           break;
           
+        case 'h':
+          WGHelp(stderr);
+          return 0;
+          
         default:
-          exit(0);
+          WGUsage(stderr);
+          return 0;
           
       }
     }
     
     argv += optind;
     argc -= optind;
+    
+    if(argc < 1){
+      WGUsage(stderr);
+      return 0;
+    }
     
     for(int i = 0; i < argc; i++){
       NSString *path = [[NSString alloc] initWithUTF8String:argv[i]];
@@ -236,5 +249,44 @@ error:
     if(destination) CFRelease(destination);
   }
   
+}
+
+void WGUsage(FILE *stream) {
+  fputs(
+    "Retina Image Conversion Tool\n"
+    "Copyright (c) 2012 Wolter Group New York, Inc.\n"
+    "\n"
+    "Usage: retina -[R|S] [options] <path> [<path> ...]\n"
+    " Help: retina -h\n"
+    "\n"
+    "Specify image files to convert or specify directories to convert all suitable\n"
+    "files in that directory, non-recursively. Retina will convert any PNG files it\n"
+    "encounters that do not already have a counterpart.\n"
+    "\n"
+    , stream
+  );
+}
+
+void WGHelp(FILE *stream) {
+  WGUsage(stream);
+  fputs(
+    "OPTIONS:\n"
+    "\n"
+    "  --create-retina    -R    Create scaled-up retina versions of all standard\n"
+    "                           resolution images encountered.\n"
+    "  --create-standard  -S    Create scaled-down standard versions of all retina\n"
+    "                           resolution images encountered.\n"
+    "  --force            -f    Force the creation of counterpart images even if\n"
+    "                           they already exist.\n"
+    "  --plan             -p    Display the files which would be created but don't\n"
+    "                           actually perform any conversion.\n"
+    "  --verbose          -v    Be more verbose. Additional information about the\n"
+    "                           conversion process is displayed.\n"
+    "  --help             -h    Display this help information and exit.\n"
+    "\n"
+    "You must use either -R or -S (or both) in order to do anything useful.\n"
+    "\n"
+    , stream
+  );
 }
 
