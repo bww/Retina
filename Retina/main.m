@@ -191,14 +191,25 @@ void WGProcessFile(int options, NSString *path) {
 }
 
 void WGCreateScaledAsset(int options, CGFloat scale, NSString *input, NSString *output) {
+  CGImageSourceRef source = NULL;
+  CGImageRef image = NULL;
   
-  NSImage *image;
-  if((image = [[NSImage alloc] initWithContentsOfFile:input]) == nil){
-    fprintf(stderr, "%s: * * * unable to read image at path: %s\n", kCommand, [input UTF8String]);
-    return;
+  if((source = CGImageSourceCreateWithURL((CFURLRef)[NSURL fileURLWithPath:input], NULL)) == NULL){
+    fprintf(stderr, "%s: * * * unable to create image source: %s\n", kCommand, [input UTF8String]);
+    goto inputerror;
   }
   
-  CGSize size = image.size;
+  if(CGImageSourceGetCount(source) < 1){
+    fprintf(stderr, "%s: * * * image source contains no images: %s\n", kCommand, [input UTF8String]);
+    goto inputerror;
+  }
+  
+  if((image = CGImageSourceCreateImageAtIndex(source, 0, NULL)) == NULL){
+    fprintf(stderr, "%s: * * * unable to create image from source: %s\n", kCommand, [input UTF8String]);
+    goto inputerror;
+  }
+  
+  CGSize size = CGSizeMake(CGImageGetWidth(image), CGImageGetHeight(image));
   size_t width  = (size_t)ceil(size.width  * scale);
   size_t height = (size_t)ceil(size.height * scale);
   
@@ -220,34 +231,37 @@ void WGCreateScaledAsset(int options, CGFloat scale, NSString *input, NSString *
     
     if(context == NULL){
       fprintf(stderr, "%s: * * * unable to create graphics context: %s\n", kCommand, [input UTF8String]);
-      goto error;
+      goto outputerror;
     }
     
-    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:FALSE]];
-    [image drawInRect:CGRectMake(0, 0, width, height) fromRect:CGRectMake(0, 0, size.width, size.height) operation:NSCompositeSourceOver fraction:1];
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
     
     if((scaled = CGBitmapContextCreateImage(context)) == NULL){
       fprintf(stderr, "%s: * * * unable to create image from graphics context: %s\n", kCommand, [input UTF8String]);
-      goto error;
+      goto outputerror;
     }
     
     if((destination = CGImageDestinationCreateWithURL((CFURLRef)[NSURL fileURLWithPath:output], kUTTypePNG, 1, NULL)) == NULL){
       fprintf(stderr, "%s: * * * unable to create image destination: %s\n", kCommand, [input UTF8String]);
-      goto error;
+      goto outputerror;
     }
     
     CGImageDestinationAddImage(destination, scaled, NULL);
     
     if(!CGImageDestinationFinalize(destination)){
       fprintf(stderr, "%s: * * * unable to finalize image destination: %s\n", kCommand, [input UTF8String]);
-      goto error;
+      goto outputerror;
     }
     
-error:
+outputerror:
     if(context) CFRelease(context);
     if(scaled) CFRelease(scaled);
     if(destination) CFRelease(destination);
   }
+  
+inputerror:
+  if(source) CFRelease(source);
+  if(image) CFRelease(image);
   
 }
 
