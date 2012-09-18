@@ -3,6 +3,8 @@ Retina
 
 Retina is a command line tool which performs individual or batch retina to standard resolution image conversion for iOS/Mac app development.
 
+Retina can be used as part of your build toolchain to automatically produce standard resolution versions of retina assets so you don't need to manually produce or maintain a standard resolution set.
+
 Usage
 -----
 
