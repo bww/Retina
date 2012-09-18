@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Retina' target in the 'Retina' project
+//
+
+#ifdef __OBJC__
+  #import <Foundation/Foundation.h>
+#endif

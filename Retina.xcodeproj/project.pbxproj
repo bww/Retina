@@ -1,0 +1,237 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D32D0F6C1608C70D007B36C1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32D0F6B1608C70D007B36C1 /* Foundation.framework */; };
+		D32D0F6F1608C70D007B36C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D32D0F6E1608C70D007B36C1 /* main.m */; };
+		D32D0F731608C70D007B36C1 /* Retina.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D32D0F721608C70D007B36C1 /* Retina.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D32D0F651608C70D007B36C1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				D32D0F731608C70D007B36C1 /* Retina.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D32D0F671608C70D007B36C1 /* Retina */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Retina; sourceTree = BUILT_PRODUCTS_DIR; };
+		D32D0F6B1608C70D007B36C1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D32D0F6E1608C70D007B36C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D32D0F711608C70D007B36C1 /* Retina-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Retina-Prefix.pch"; sourceTree = "<group>"; };
+		D32D0F721608C70D007B36C1 /* Retina.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Retina.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D32D0F641608C70D007B36C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D32D0F6C1608C70D007B36C1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D32D0F5C1608C70D007B36C1 = {
+			isa = PBXGroup;
+			children = (
+				D32D0F6D1608C70D007B36C1 /* Retina */,
+				D32D0F6A1608C70D007B36C1 /* Frameworks */,
+				D32D0F681608C70D007B36C1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D32D0F681608C70D007B36C1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D32D0F671608C70D007B36C1 /* Retina */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D32D0F6A1608C70D007B36C1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D32D0F6B1608C70D007B36C1 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D32D0F6D1608C70D007B36C1 /* Retina */ = {
+			isa = PBXGroup;
+			children = (
+				D32D0F6E1608C70D007B36C1 /* main.m */,
+				D32D0F721608C70D007B36C1 /* Retina.1 */,
+				D32D0F701608C70D007B36C1 /* Supporting Files */,
+			);
+			path = Retina;
+			sourceTree = "<group>";
+		};
+		D32D0F701608C70D007B36C1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D32D0F711608C70D007B36C1 /* Retina-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D32D0F661608C70D007B36C1 /* Retina */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D32D0F761608C70D007B36C1 /* Build configuration list for PBXNativeTarget "Retina" */;
+			buildPhases = (
+				D32D0F631608C70D007B36C1 /* Sources */,
+				D32D0F641608C70D007B36C1 /* Frameworks */,
+				D32D0F651608C70D007B36C1 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Retina;
+			productName = Retina;
+			productReference = D32D0F671608C70D007B36C1 /* Retina */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D32D0F5E1608C70D007B36C1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Wolter Group New York";
+			};
+			buildConfigurationList = D32D0F611608C70D007B36C1 /* Build configuration list for PBXProject "Retina" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D32D0F5C1608C70D007B36C1;
+			productRefGroup = D32D0F681608C70D007B36C1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D32D0F661608C70D007B36C1 /* Retina */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D32D0F631608C70D007B36C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D32D0F6F1608C70D007B36C1 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D32D0F741608C70D007B36C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D32D0F751608C70D007B36C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D32D0F771608C70D007B36C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Retina/Retina-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D32D0F781608C70D007B36C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Retina/Retina-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D32D0F611608C70D007B36C1 /* Build configuration list for PBXProject "Retina" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D32D0F741608C70D007B36C1 /* Debug */,
+				D32D0F751608C70D007B36C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D32D0F761608C70D007B36C1 /* Build configuration list for PBXNativeTarget "Retina" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D32D0F771608C70D007B36C1 /* Debug */,
+				D32D0F781608C70D007B36C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D32D0F5E1608C70D007B36C1 /* Project object */;
+}
