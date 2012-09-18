@@ -21,3 +21,7 @@ Or to scale up standard resolution assets to retina (for some reason…):
 And to see which images would be converted, but without actually performing any conversion, you can use:
 
     $ retina -S -p MyProject/images
+
+For help and more options, use:
+
+    $ retina -h
