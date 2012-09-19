@@ -1,0 +1,116 @@
+.\"Modified from man(1) of FreeBSD, the NetBSD mdoc.template, and mdoc.samples.
+.\"See Also:
+.\"man mdoc.samples for a complete listing of options
+.\"man mdoc for the short list of editing options
+.\"/usr/share/misc/mdoc.template
+.Dd 9/18/12               \" DATE 
+.Dt retina 1              \" Program name and manual section number 
+.Os Darwin
+.Sh NAME                  \" Section Header - required - don't modify 
+.Nm retina
+.\" Use .Nm macro to designate other names for the documented program.
+.Nd A tool for retina to standard resolution batch image conversion and vice versa.
+.Sh SYNOPSIS
+.Nm
+.Fl S
+.Op Fl fpvh
+.Op Ar file
+.Op Ar
+.br
+Create standard resolution counterparts for retina resolution images (image@2x.png ==> image.png)
+.Pp
+.Nm
+.Fl R
+.Op Fl fpvh
+.Op Ar file
+.Op Ar
+.br
+Create retina resolution counterparts for standard resolution images (image.png ==> image@2x.png)
+.Sh DESCRIPTION          \" Section Header - required - don't modify
+For each operand that names a
+.Ar file
+of type directory,
+.Nm
+examines each PNG file contained within that directory to determine if a scaled-down or scaled-up
+counterpart image should be created. For each operand that names a
+.Ar file
+which is not a directory, the named file is examined and is assumed to be a PNG image.
+.Pp
+Images encountered with a filename that contains the suffix
+.Ar @2x
+immediately before the file extension are considered to be retina resolution images. When the
+.Fl S
+flag is used, these images will be scaled down to create standard resolution counterparts.
+Images with a filename that does not contain this suffix are considered to be standard
+resolution images. When the
+.Fl R
+flag is used, these images will be scaled up to create retina resolution counterparts.
+.Pp
+As you would assume, using
+.Fl R
+to scale up standard resolution images will produce retina resolution images which are pixellated.
+This option may seem to have dubious utility, but it is included nonetheless for completeness, and
+because such images can be helpful to designers creating a retina resolution set of images from
+standard resolution images.
+.Pp
+Normally,
+.Nm
+only creates counterparts to images when either no counterpart is present, or when a counterpart
+is present but the counterpart file is older than the source file. You can force
+.Nm
+to create counterparts to all images encountered by using the
+.Fl f
+flag.
+.Pp
+One or both of the following are required in order to do anything useful:
+.Bl -tag -width -indent  \" Differs from above in tag removed 
+.It Fl S -create-standard
+Create scaled-down standard resolution counterparts for retina resoulution images encountered.
+.It Fl R -create-retina
+Create scaled-up retina resolution counterparts for standard resoulution images encountered.
+.El                      \" Ends the list
+.Pp
+The following options are available:
+.Bl -tag -width -indent  \" Differs from above in tag removed 
+.It Fl p -plan
+Display the files which would be affected if
+.Nm
+were run without this option, but don't actually create any counterpart images.
+.It Fl f -force
+Force
+.Nm
+to create counterparts to every image encountered regardless of whether they already have an
+up-to-date counterpart.
+.It Fl v -verbose
+Be more verbose. Additional information about the conversion process is displayed.
+.It Fl h -help
+Display brief help information and exit.
+.El                      \" Ends the list
+.Sh EXAMPLES
+Create standard resolution images for all retina resolution images in the directory named
+.Ar images
+.br
+.Rs 4
+.Nm
+.Fl S
+.Ar images
+.\" .Sh ENVIRONMENT      \" May not be needed
+.\" .Bl -tag -width "ENV_VAR_1" -indent \" ENV_VAR_1 is width of the string ENV_VAR_1
+.\" .It Ev ENV_VAR_1
+.\" Description of ENV_VAR_1
+.\" .It Ev ENV_VAR_2
+.\" Description of ENV_VAR_2
+.\" .El                      
+.\" .Sh DIAGNOSTICS       \" May not be needed
+.\" .Bl -diag
+.\" .It Diagnostic Tag
+.\" Diagnostic informtion here.
+.\" .It Diagnostic Tag
+.\" Diagnostic informtion here.
+.\" .El
+.\" .Sh SEE ALSO 
+.\" List links in ascending order by section, alphabetically within a section.
+.\" Please do not reference files that do not exist without filing a bug report
+.\" .Xr a 1 , 
+.\" .Sh BUGS              \" Document known, unremedied bugs 
+.\" .Sh HISTORY           \" Document history if command behaves in a unique manner
