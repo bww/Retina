@@ -172,7 +172,7 @@ void WGProcessFile(int options, NSString *path) {
           fprintf(stdout, "%s: creating standard version: %s ==> %s\n", kCommand, [path UTF8String], [output UTF8String]);
           WGCreateScaledAsset(options, 0.5, path, output);
         }else{
-          if((options & (kWGOptionVerbose | kWGOptionPlan)) != 0) fprintf(stdout, "%s: standard version already exists; skipping: %s\n", kCommand, [path UTF8String]);
+          VERBOSE(options, "%s: standard version already exists; skipping: %s\n", kCommand, [path UTF8String]);
         }
       }
     }else{
@@ -182,7 +182,7 @@ void WGProcessFile(int options, NSString *path) {
           fprintf(stdout, "%s: creating retina version: %s ==> %s\n", kCommand, [path UTF8String], [output UTF8String]);
           WGCreateScaledAsset(options, 2, path, output);
         }else{
-          if((options & (kWGOptionVerbose | kWGOptionPlan)) != 0) fprintf(stdout, "%s: retina version already exists; skipping: %s\n", kCommand, [path UTF8String]);
+          VERBOSE(options, "%s: retina version already exists; skipping: %s\n", kCommand, [path UTF8String]);
         }
       }
     }
