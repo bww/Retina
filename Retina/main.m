@@ -46,6 +46,7 @@ enum {
 void WGProcessPath(int options, NSString *path);
 void WGProcessDirectory(int options, NSString *path);
 void WGProcessFile(int options, NSString *path);
+BOOL WGAssetIsUpToDate(int options, NSString *input, NSString *output);
 void WGCreateScaledAsset(int options, CGFloat scale, NSString *input, NSString *output);
 void WGUsage(FILE *stream);
 void WGHelp(FILE *stream);
@@ -123,6 +124,33 @@ int main(int argc, const char * argv[]) {
   return 0;
 }
 
+/**
+ * Determine if an asset is up to date or not.
+ */
+BOOL WGAssetIsUpToDate(int options, NSString *input, NSString *output) {
+  NSError *error = nil;
+  
+  // when the force flag is set, assets are always out of date
+  if((options & kWGOptionForce) == kWGOptionForce) return FALSE;
+  // when the output file is not present, assets are always out of date
+  if(![[NSFileManager defaultManager] fileExistsAtPath:output]) return FALSE;
+  
+  NSDictionary *inputAttributes;
+  if((inputAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:input error:&error]) == nil){
+    fprintf(stderr, "%s: * * * unable to stat input file: %s: %s\n", kCommand, [input UTF8String], [[error localizedDescription] UTF8String]);
+    return TRUE; // assume we're up to date to avoid processing this file
+  }
+  
+  NSDictionary *outputAttributes;
+  if((outputAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:output error:&error]) == nil){
+    fprintf(stderr, "%s: * * * unable to stat output file: %s: %s\n", kCommand, [input UTF8String], [[error localizedDescription] UTF8String]);
+    return TRUE; // assume we're up to date to avoid processing this file
+  }
+  
+  // compare modification dates; if the input file is older than the output file, we're out of date
+  return [[inputAttributes objectForKey:NSFileModificationDate] compare:[outputAttributes objectForKey:NSFileModificationDate]] != NSOrderedDescending;
+}
+
 void WGProcessPath(int options, NSString *path) {
   BOOL directory;
   
@@ -147,6 +175,7 @@ void WGProcessDirectory(int options, NSString *path) {
   NSArray *files;
   if((files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error]) == nil){
     fprintf(stderr, "%s: * * * unable to list directory at path: %s: %s\n", kCommand, [path UTF8String], [[error localizedDescription] UTF8String]);
+    return;
   }
   
   for(NSString *file in files){
@@ -168,21 +197,21 @@ void WGProcessFile(int options, NSString *path) {
     if([base length] > 3 && [base hasSuffix:@"@2x"]){
       if((options & kWGOptionCreateStandard) == kWGOptionCreateStandard){
         NSString *output = [[base substringWithRange:NSMakeRange(0, [base length] - 3 /* "@2x" */)] stringByAppendingPathExtension:@"png"];
-        if((options & kWGOptionForce) == kWGOptionForce || ![[NSFileManager defaultManager] fileExistsAtPath:output]){
+        if(!WGAssetIsUpToDate(options, path, output)){
           fprintf(stdout, "%s: creating standard version: %s ==> %s\n", kCommand, [path UTF8String], [output UTF8String]);
           WGCreateScaledAsset(options, 0.5, path, output);
         }else{
-          VERBOSE(options, "%s: standard version already exists; skipping: %s\n", kCommand, [path UTF8String]);
+          VERBOSE(options, "%s: skipping standard version; already up to date: %s\n", kCommand, [path UTF8String]);
         }
       }
     }else{
       if((options & kWGOptionCreateRetina) == kWGOptionCreateRetina){
         NSString *output = [[base stringByAppendingString:@"@2x"] stringByAppendingPathExtension:@"png"];
-        if((options & kWGOptionForce) == kWGOptionForce || ![[NSFileManager defaultManager] fileExistsAtPath:output]){
+        if(!WGAssetIsUpToDate(options, path, output)){
           fprintf(stdout, "%s: creating retina version: %s ==> %s\n", kCommand, [path UTF8String], [output UTF8String]);
           WGCreateScaledAsset(options, 2, path, output);
         }else{
-          VERBOSE(options, "%s: retina version already exists; skipping: %s\n", kCommand, [path UTF8String]);
+          VERBOSE(options, "%s: skipping retina version; already up to date: %s\n", kCommand, [path UTF8String]);
         }
       }
     }
@@ -213,7 +242,7 @@ void WGCreateScaledAsset(int options, CGFloat scale, NSString *input, NSString *
   size_t width  = (size_t)ceil(size.width  * scale);
   size_t height = (size_t)ceil(size.height * scale);
   
-  VERBOSE(options, "%s: scaling image [%dx%d to %dx%d]: %s\n", kCommand, (int)size.width, (int)size.height, (int)width, (int)height, [input UTF8String]);
+  VERBOSE(options, "%s: creating scaled image (%dx%d ==> %dx%d): %s\n", kCommand, (int)size.width, (int)size.height, (int)width, (int)height, [input UTF8String]);
   
   if((options & kWGOptionPlan) != kWGOptionPlan){
     size_t bitsPerComponent = 8;
