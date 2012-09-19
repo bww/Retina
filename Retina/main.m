@@ -62,13 +62,13 @@ int main(int argc, const char * argv[]) {
     }
     
     static struct option longopts[] = {
-      { "create-retina",    no_argument,  NULL,   'R' },  // create scaled-up retina versions
-      { "create-standard",  no_argument,  NULL,   'S' },  // create scaled-down standard versions
-      { "force",            no_argument,  NULL,   'f' },  // force assets to be created even if they already exist
-      { "plan",             no_argument,  NULL,   'p' },  // display which files would be created, but don't actually create them
-      { "verbose",          no_argument,  NULL,   'v' },  // be more verbose
-      { "help",             no_argument,  NULL,   'h' },  // display help information
-      { NULL,               0,            NULL,    0  }
+      { "retina",     no_argument,  NULL,   'R' },  // create scaled-up retina versions
+      { "standard",   no_argument,  NULL,   'S' },  // create scaled-down standard versions
+      { "force",      no_argument,  NULL,   'f' },  // force assets to be created even if they already exist
+      { "plan",       no_argument,  NULL,   'p' },  // display which files would be created, but don't actually create them
+      { "verbose",    no_argument,  NULL,   'v' },  // be more verbose
+      { "help",       no_argument,  NULL,   'h' },  // display help information
+      { NULL,         0,            NULL,    0  }
     };
     
     int flag;
@@ -298,11 +298,7 @@ void WGUsage(FILE *stream) {
     "Copyright (c) 2012 Wolter Group New York, Inc.\n"
     "\n"
     "Usage: retina -[R|S] [options] <path> [<path> ...]\n"
-    " Help: retina -h\n"
-    "\n"
-    "Specify image files to convert or specify directories to convert all suitable\n"
-    "files in that directory, non-recursively. Retina will convert any PNG files it\n"
-    "encounters that do not already have a counterpart.\n"
+    " Help: retina -h, man retina\n"
     "\n"
     , stream
   );
@@ -311,19 +307,13 @@ void WGUsage(FILE *stream) {
 void WGHelp(FILE *stream) {
   WGUsage(stream);
   fputs(
-    "OPTIONS:\n"
-    "\n"
-    "  --create-retina    -R    Create scaled-up retina versions of all standard\n"
-    "                           resolution images encountered.\n"
-    "  --create-standard  -S    Create scaled-down standard versions of all retina\n"
-    "                           resolution images encountered.\n"
-    "  --force            -f    Force the creation of counterpart images even if\n"
-    "                           they already exist.\n"
-    "  --plan             -p    Display the files which would be created but don't\n"
-    "                           actually perform any conversion.\n"
-    "  --verbose          -v    Be more verbose. Additional information about the\n"
-    "                           conversion process is displayed.\n"
-    "  --help             -h    Display this help information and exit.\n"
+    "Options:\n"
+    "  --retina    -R    Create scaled-up retina resolution images.\n"
+    "  --standard  -S    Create scaled-down standard resolution images.\n"
+    "  --force     -f    Create counterpart images even if they are up to date.\n"
+    "  --plan      -p    Show files which would be created but don't create them.\n"
+    "  --help      -h    Display this help information and exit.\n"
+    "  --verbose   -v    Be more verbose.\n"
     "\n"
     "You must use either -R or -S (or both) in order to do anything useful.\n"
     "\n"
