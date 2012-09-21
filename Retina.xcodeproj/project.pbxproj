@@ -9,31 +9,21 @@
 /* Begin PBXBuildFile section */
 		D32D0F6C1608C70D007B36C1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32D0F6B1608C70D007B36C1 /* Foundation.framework */; };
 		D32D0F6F1608C70D007B36C1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D32D0F6E1608C70D007B36C1 /* main.m */; };
-		D32D0F731608C70D007B36C1 /* Retina.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = D32D0F721608C70D007B36C1 /* Retina.1 */; };
 		D32D0F7A1608C778007B36C1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32D0F791608C778007B36C1 /* Cocoa.framework */; };
-		D32D0F9C1608E1DC007B36C1 /* retina in CopyFiles */ = {isa = PBXBuildFile; fileRef = D32D0F671608C70D007B36C1 /* retina */; };
+		D37C1A85160CB4B100CE8CDE /* retina.1 in Install Manpages */ = {isa = PBXBuildFile; fileRef = D32D0F721608C70D007B36C1 /* retina.1 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D32D0F651608C70D007B36C1 /* CopyFiles */ = {
+		D32D0F651608C70D007B36C1 /* Install Manpages */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			dstPath = /usr/local/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				D32D0F731608C70D007B36C1 /* Retina.1 in CopyFiles */,
+				D37C1A85160CB4B100CE8CDE /* retina.1 in Install Manpages */,
 			);
+			name = "Install Manpages";
 			runOnlyForDeploymentPostprocessing = 1;
-		};
-		D32D0F9B1608E1CA007B36C1 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = $HOME/Applications/bin;
-			dstSubfolderSpec = 0;
-			files = (
-				D32D0F9C1608E1DC007B36C1 /* retina in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -42,7 +32,7 @@
 		D32D0F6B1608C70D007B36C1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D32D0F6E1608C70D007B36C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D32D0F711608C70D007B36C1 /* Retina-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Retina-Prefix.pch"; sourceTree = "<group>"; };
-		D32D0F721608C70D007B36C1 /* Retina.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Retina.1; sourceTree = "<group>"; };
+		D32D0F721608C70D007B36C1 /* retina.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = retina.1; sourceTree = "<group>"; };
 		D32D0F791608C778007B36C1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -89,7 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				D32D0F6E1608C70D007B36C1 /* main.m */,
-				D32D0F721608C70D007B36C1 /* Retina.1 */,
+				D32D0F721608C70D007B36C1 /* retina.1 */,
 				D32D0F701608C70D007B36C1 /* Supporting Files */,
 			);
 			path = Retina;
@@ -112,8 +102,7 @@
 			buildPhases = (
 				D32D0F631608C70D007B36C1 /* Sources */,
 				D32D0F641608C70D007B36C1 /* Frameworks */,
-				D32D0F651608C70D007B36C1 /* CopyFiles */,
-				D32D0F9B1608E1CA007B36C1 /* CopyFiles */,
+				D32D0F651608C70D007B36C1 /* Install Manpages */,
 			);
 			buildRules = (
 			);
@@ -212,6 +201,7 @@
 		D32D0F771608C70D007B36C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DSTROOT = /;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Retina/Retina-Prefix.pch";
 				PRODUCT_NAME = retina;
@@ -221,6 +211,7 @@
 		D32D0F781608C70D007B36C1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DSTROOT = /;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Retina/Retina-Prefix.pch";
 				PRODUCT_NAME = retina;
@@ -246,6 +237,7 @@
 				D32D0F781608C70D007B36C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

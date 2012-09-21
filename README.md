@@ -1,29 +1,50 @@
 Retina
 ======
 
-Retina is a command line tool which performs individual or batch retina to standard resolution image conversion for iOS/Mac app development.
+Retina is a command line tool which performs individual or batch retina to standard resolution image conversion for iOS/Mac app development (that is, ```image@2x.png``` → ```image.png``` and vice versa).
 
 Retina can be used as part of your build toolchain to automatically produce standard resolution versions of retina assets so you don't need to manually produce or maintain a standard resolution set.
+
+Installing
+----------
+
+The easiest way to install Retina is to use the ```xcodebuild``` tool on the command line since, inexplicably, there is no install option from the graphical Xcode interface as far as I can tell:
+
+	$ cd /path/to/Retina		# The path to the Retina source directory
+	$ sudo xcodebuild install	# Have Xcode build and install Retina
+
+By default Retina installs under the prefix ```/usr/local```, which is why you have to run the install with ```sudo``` (or otherwise have permission to write to that directory).
+
+If you want to change the installation directory, just modify the ```DSTROOT``` and/or ```INSTALL_PATH``` build parameters as you normally would and change the *Install Manpages* build phase "Subpath" to where you want manpages installed.
 
 Usage
 -----
 
-To convert all of the ```@2x``` retina resolution images in the directory ```MyProject/images```, you can use the following command:
+To convert all of the ```@2x``` retina resolution images in the directory ```Project/images```, you can use the following command. Only out-of-date images will be converted:
 
-    $ retina -S MyProject/images
+    $ retina -S Project/images
 
-Or to convert an individual image:
+Or to convert an individual image. The image will be converted only if it is out-of-date:
 
-    $ retina -S MyProject/images/Default@2x.png
+    $ retina -S Project/images/Default@2x.png
 
-Or to scale up standard resolution assets to retina (for some reason…):
+Or to scale up standard resolution assets to retina (…for some reason):
 
-    $ retina -R MyProject/images
+    $ retina -R Project/images
 
-And to see which images would be converted, but without actually performing any conversion, you can use:
+To convert all suitable images, regardless of whether they are out of date:
 
-    $ retina -S -p MyProject/images
+    $ retina -S -f Project/images
+    
+To see which images would be converted, but without actually performing any conversion:
+
+    $ retina -S -p Project/images
 
 For help and more options, use:
 
     $ retina -h
+
+Or view the Retina manpage:
+
+	$ man retina
+	
