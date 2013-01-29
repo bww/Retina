@@ -17,7 +17,7 @@
 		D32D0F651608C70D007B36C1 /* Install Manpages */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/local/share/man1/man1/;
+			dstPath = /usr/local/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
 				D37C1A85160CB4B100CE8CDE /* retina.1 in Install Manpages */,
