@@ -316,7 +316,7 @@ inputerror:
 void WGUsage(FILE *stream) {
   fputs(
     "Retina Image Conversion Tool\n"
-    "Copyright (c) 2012 Wolter Group New York, Inc.\n"
+    "Copyright (c) 2012-2013 Brian William Wolter\n"
     "\n"
     "Usage: retina -[R|S] [options] <path> [<path> ...]\n"
     " Help: retina -h, man retina\n"

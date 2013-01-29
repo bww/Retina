@@ -31,14 +31,15 @@ For each operand that names a
 .Ar file
 of type directory,
 .Nm
-examines each PNG file contained within that directory to determine if a scaled-down or scaled-up
+examines each PNG or JPEG file contained within that directory to determine if a scaled-down or scaled-up
 counterpart image should be created. For each operand that names a
 .Ar file
-which is not a directory, the named file is examined and is assumed to be a PNG image.
+which is not a directory, the named file is examined and is expected to be a PNG or JPEG image based on
+its filename extension.
 .Pp
 Images encountered with a filename that contains the suffix
 .Ar @2x
-immediately before the file extension are considered to be retina resolution images. When the
+immediately before the filename extension are considered to be retina resolution images. When the
 .Fl S
 flag is used, these images will be scaled down to create standard resolution counterparts.
 Images with a filename that does not contain this suffix are considered to be standard
@@ -50,8 +51,7 @@ As you would assume, using
 .Fl R
 to scale up standard resolution images will produce retina resolution images which are pixellated.
 This option may seem to have dubious utility, but it is included nonetheless for completeness, and
-because such images can be helpful to designers creating a retina resolution set of images from
-standard resolution images.
+because such images can be useful as placeholders.
 .Pp
 Normally,
 .Nm
@@ -92,6 +92,11 @@ Create standard resolution images for all retina resolution images in the direct
 .Nm
 .Fl S
 .Ar images
+.Sh ABOUT
+Get the Retina source on GitHub:
+.Ar https://github.com/bww/Retina
+.Pp
+Copyright 2012-2013 Brian William Wolter, All rights reserved.
 .\" .Sh ENVIRONMENT      \" May not be needed
 .\" .Bl -tag -width "ENV_VAR_1" -indent \" ENV_VAR_1 is width of the string ENV_VAR_1
 .\" .It Ev ENV_VAR_1
