@@ -36,9 +36,10 @@ enum {
   kWGOptionNone           = 0,
   kWGOptionCreateRetina   = 1 << 0,
   kWGOptionCreateStandard = 1 << 1,
-  kWGOptionForce          = 1 << 2,
-  kWGOptionPlan           = 1 << 3,
-  kWGOptionVerbose        = 1 << 4
+  kWGOptionRecursive      = 1 << 2,
+  kWGOptionForce          = 1 << 3,
+  kWGOptionPlan           = 1 << 4,
+  kWGOptionVerbose        = 1 << 5
 };
 
 #define VERBOSE(options, format...)  if((options & kWGOptionVerbose) == kWGOptionVerbose){ fprintf(stdout, ##format); }
@@ -47,7 +48,7 @@ void WGProcessPath(int options, NSString *path);
 void WGProcessDirectory(int options, NSString *path);
 void WGProcessFile(int options, NSString *path);
 BOOL WGAssetIsUpToDate(int options, NSString *input, NSString *output);
-void WGCreateScaledAsset(int options, CGFloat scale, NSString *input, NSString *output);
+void WGCreateScaledAsset(int options, CGFloat scale, NSString *format, NSString *input, NSString *output);
 void WGUsage(FILE *stream);
 void WGHelp(FILE *stream);
 
@@ -64,6 +65,7 @@ int main(int argc, const char * argv[]) {
     static struct option longopts[] = {
       { "retina",     no_argument,  NULL,   'R' },  // create scaled-up retina versions
       { "standard",   no_argument,  NULL,   'S' },  // create scaled-down standard versions
+      { "recurse",    no_argument,  NULL,   'r' },  // recursively process directories
       { "force",      no_argument,  NULL,   'f' },  // force assets to be created even if they already exist
       { "plan",       no_argument,  NULL,   'p' },  // display which files would be created, but don't actually create them
       { "verbose",    no_argument,  NULL,   'v' },  // be more verbose
@@ -72,7 +74,7 @@ int main(int argc, const char * argv[]) {
     };
     
     int flag;
-    while((flag = getopt_long(argc, (char **)argv, "RSfpvh", longopts, NULL)) != -1){
+    while((flag = getopt_long(argc, (char **)argv, "RSrfpvh", longopts, NULL)) != -1){
       switch(flag){
         
         case 'R':
@@ -81,6 +83,10 @@ int main(int argc, const char * argv[]) {
           
         case 'S':
           options |= kWGOptionCreateStandard;
+          break;
+          
+        case 'r':
+          options |= kWGOptionRecursive;
           break;
           
         case 'f':
@@ -186,8 +192,18 @@ void WGProcessDirectory(int options, NSString *path) {
 
 void WGProcessFile(int options, NSString *path) {
   @autoreleasepool {
+    NSString *extension = nil;
+    NSString *format = nil;
     
-    if([[path pathExtension] caseInsensitiveCompare:@"png"] != NSOrderedSame){
+    if((extension = [path pathExtension]) != nil){
+      if([extension caseInsensitiveCompare:@"png"] == NSOrderedSame){
+        format = (NSString *)kUTTypePNG;
+      }else if([extension caseInsensitiveCompare:@"jpg"] == NSOrderedSame || [extension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame){
+        format = (NSString *)kUTTypeJPEG;
+      }
+    }
+    
+    if(extension == nil || format == nil){
       VERBOSE(options, "%s: skipping unsupported file: %s\n", kCommand, [path UTF8String]);
       return;
     }
@@ -196,20 +212,20 @@ void WGProcessFile(int options, NSString *path) {
     
     if([base length] > 3 && [base hasSuffix:@"@2x"]){
       if((options & kWGOptionCreateStandard) == kWGOptionCreateStandard){
-        NSString *output = [[base substringWithRange:NSMakeRange(0, [base length] - 3 /* "@2x" */)] stringByAppendingPathExtension:@"png"];
+        NSString *output = [[base substringWithRange:NSMakeRange(0, [base length] - 3 /* "@2x" */)] stringByAppendingPathExtension:extension];
         if(!WGAssetIsUpToDate(options, path, output)){
           fprintf(stdout, "%s: creating standard version: %s ==> %s\n", kCommand, [path UTF8String], [output UTF8String]);
-          WGCreateScaledAsset(options, 0.5, path, output);
+          WGCreateScaledAsset(options, 0.5, format, path, output);
         }else{
           VERBOSE(options, "%s: skipping standard version; already up to date: %s\n", kCommand, [path UTF8String]);
         }
       }
     }else{
       if((options & kWGOptionCreateRetina) == kWGOptionCreateRetina){
-        NSString *output = [[base stringByAppendingString:@"@2x"] stringByAppendingPathExtension:@"png"];
+        NSString *output = [[base stringByAppendingString:@"@2x"] stringByAppendingPathExtension:extension];
         if(!WGAssetIsUpToDate(options, path, output)){
           fprintf(stdout, "%s: creating retina version: %s ==> %s\n", kCommand, [path UTF8String], [output UTF8String]);
-          WGCreateScaledAsset(options, 2, path, output);
+          WGCreateScaledAsset(options, 2, format, path, output);
         }else{
           VERBOSE(options, "%s: skipping retina version; already up to date: %s\n", kCommand, [path UTF8String]);
         }
@@ -219,9 +235,14 @@ void WGProcessFile(int options, NSString *path) {
   }
 }
 
-void WGCreateScaledAsset(int options, CGFloat scale, NSString *input, NSString *output) {
+void WGCreateScaledAsset(int options, CGFloat scale, NSString *format, NSString *input, NSString *output) {
   CGImageSourceRef source = NULL;
   CGImageRef image = NULL;
+  
+  if(format == nil || [format length] < 1){
+    fprintf(stderr, "%s: * * * no image format provided: %s\n", kCommand, [input UTF8String]);
+    goto inputerror;
+  }
   
   if((source = CGImageSourceCreateWithURL((CFURLRef)[NSURL fileURLWithPath:input], NULL)) == NULL){
     fprintf(stderr, "%s: * * * unable to create image source: %s\n", kCommand, [input UTF8String]);
@@ -268,7 +289,7 @@ void WGCreateScaledAsset(int options, CGFloat scale, NSString *input, NSString *
       goto outputerror;
     }
     
-    if((destination = CGImageDestinationCreateWithURL((CFURLRef)[NSURL fileURLWithPath:output], kUTTypePNG, 1, NULL)) == NULL){
+    if((destination = CGImageDestinationCreateWithURL((CFURLRef)[NSURL fileURLWithPath:output], (CFStringRef)format, 1, NULL)) == NULL){
       fprintf(stderr, "%s: * * * unable to create image destination: %s\n", kCommand, [input UTF8String]);
       goto outputerror;
     }

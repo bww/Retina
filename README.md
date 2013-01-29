@@ -8,14 +8,12 @@ Retina can be used as part of your build toolchain to automatically produce stan
 Installing
 ----------
 
-The easiest way to install Retina is to use the ```xcodebuild``` tool on the command line since, inexplicably, there is no install option from the graphical Xcode interface as far as I can tell:
+The easiest way to install Retina is to use the installer script ```install.sh```, which will build and install Retina via ```xcodebuild```:
 
 	$ cd /path/to/Retina		# The path to the Retina source directory
-	$ sudo xcodebuild install	# Have Xcode build and install Retina
+	$ sudo ./install.sh	    # Build and install Retina
 
-By default Retina installs under the prefix ```/usr/local```, which is why you have to run the install with ```sudo``` (or otherwise have permission to write to that directory).
-
-If you want to change the installation directory, just modify the ```DSTROOT``` and/or ```INSTALL_PATH``` build parameters as you normally would and change the *Install Manpages* build phase "Subpath" to where you want manpages installed.
+The installer script installs Retina under the prefix ```/usr/local```, which is why you have to run the install with ```sudo``` (or otherwise have permission to write to that directory).
 
 Usage
 -----

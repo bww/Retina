@@ -17,7 +17,7 @@
 		D32D0F651608C70D007B36C1 /* Install Manpages */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/local/share/man/man1/;
+			dstPath = /usr/local/share/man1/man1/;
 			dstSubfolderSpec = 0;
 			files = (
 				D37C1A85160CB4B100CE8CDE /* retina.1 in Install Manpages */,
@@ -31,7 +31,7 @@
 		D32D0F671608C70D007B36C1 /* retina */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = retina; sourceTree = BUILT_PRODUCTS_DIR; };
 		D32D0F6B1608C70D007B36C1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D32D0F6E1608C70D007B36C1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D32D0F711608C70D007B36C1 /* Retina-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Retina-Prefix.pch"; sourceTree = "<group>"; };
+		D32D0F711608C70D007B36C1 /* retina.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = retina.pch; sourceTree = "<group>"; };
 		D32D0F721608C70D007B36C1 /* retina.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = retina.1; sourceTree = "<group>"; };
 		D32D0F791608C778007B36C1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -88,7 +88,7 @@
 		D32D0F701608C70D007B36C1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D32D0F711608C70D007B36C1 /* Retina-Prefix.pch */,
+				D32D0F711608C70D007B36C1 /* retina.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -201,9 +201,8 @@
 		D32D0F771608C70D007B36C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Retina/Retina-Prefix.pch";
+				GCC_PREFIX_HEADER = Retina/retina.pch;
 				PRODUCT_NAME = retina;
 			};
 			name = Debug;
@@ -211,9 +210,8 @@
 		D32D0F781608C70D007B36C1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Retina/Retina-Prefix.pch";
+				GCC_PREFIX_HEADER = Retina/retina.pch;
 				PRODUCT_NAME = retina;
 			};
 			name = Release;
