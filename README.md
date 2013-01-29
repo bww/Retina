@@ -10,8 +10,8 @@ Installing
 
 The easiest way to install Retina is to use the installer script ```install.sh```, which will build and install Retina via ```xcodebuild```:
 
-	$ cd /path/to/Retina		# The path to the Retina source directory
-	$ sudo ./install.sh	    # Build and install Retina
+    $ cd /path/to/Retina  # The path to the Retina source directory
+    $ sudo ./install.sh   # Build and install Retina
 
 The installer script installs Retina under the prefix ```/usr/local```, which is why you have to run the install with ```sudo``` (or otherwise have permission to write to that directory).
 
@@ -44,5 +44,5 @@ For help and more options, use:
 
 Or view the Retina manpage:
 
-	$ man retina
-	
+    $ man retina
+  
